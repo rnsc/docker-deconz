@@ -4,7 +4,7 @@ name: Docker images build
 
 on:
   push:
-    branches: ['*']
+    branches: ['master']
   pull_request:
   workflow_dispatch:
 
@@ -27,6 +27,20 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+      - name: get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+            path: 'version.json'
+            prop_path: 'version'
+
+      - name: get channel
+        id: channel
+        uses: notiz-dev/github-action-json-property@release
+        with:
+            path: 'version.json'
+            prop_path: 'channel'
+
       - name: Build and push ${{ matrix.name }}
         uses: docker/build-push-action@v2
         with:
@@ -36,6 +50,9 @@ jobs:
             linux/amd64
             linux/arm/v7
             linux/arm64
+          build-args:
+            - VERSION=${{steps.version.outputs.prop}}
+            - CHANNEL=${{steps.channel.outputs.prop}}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:latest
           labels: |
