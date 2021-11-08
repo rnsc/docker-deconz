@@ -14,7 +14,7 @@ fi
 if echo "${PLATFORM}" | grep -qE "amd64";
 then
   URL="http://deconz.dresden-elektronik.de/ubuntu/${CHANNEL}/deconz${DEV}-${DECONZ_VERSION}-qt5.deb"
-  if echo "$4" | -q "dev";
+  if echo "${DEV}" | grep -q "dev";
   then
     URL="http://deconz.dresden-elektronik.de/ubuntu/${CHANNEL}/deconz${DEV}-${DECONZ_VERSION}.deb"
   fi
