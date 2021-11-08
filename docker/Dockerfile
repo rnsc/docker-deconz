@@ -37,7 +37,7 @@ RUN apt-get update && \
         libqt5sql5 \
         libqt5websockets5 \
         libqt5widgets5 \
-	libqt5qml5 \
+        libqt5qml5 \
         libssl1.1 \
         lsof \
         sqlite3 \
@@ -52,7 +52,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Workaround required on amd64 to address issue #292
-RUN if [ uname -a | grep -q amd64 ]; then apt-get update && \
+RUN if uname -a | grep -q amd64 ; then apt-get update && \
     apt-get install -y \
         binutils && \
     apt-get clean && \
@@ -65,7 +65,7 @@ RUN chmod +x /start.sh && \
     chmod +x /firmware-update.sh
 
 # Add deCONZ, install deCONZ, make OTAU dir
-RUN if [ uname -a | grep -q arm64 ] ; \
+RUN if uname -a | grep -q arm64 ; \
     then \
         curl http://deconz.dresden-elektronik.de/ubuntu/${CHANNEL}/deconz-${DECONZ_VERSION}-arm64.deb -o /deconz.deb \
     else \
