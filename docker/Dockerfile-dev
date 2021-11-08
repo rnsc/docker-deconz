@@ -32,21 +32,27 @@ RUN apt-get update && \
     apt-get install -y \
         curl \
         kmod \
+        git \
         libcap2-bin \
         libqt5core5a \
         libqt5gui5 \
         libqt5network5 \
         libqt5serialport5 \
+        libqt5serialport5-dev \
         libqt5sql5 \
         libqt5websockets5 \
+        libqt5websockets5-dev \
         libqt5widgets5 \
         libqt5qml5 \
+        libsqlite3-dev \
         libssl1.1 \
+        libssl-dev \
         lsof \
         sqlite3 \
         tigervnc-standalone-server \
         tigervnc-common \
         novnc \
+        qt5-default \
         websockify \
         openbox \
         xfonts-base \
@@ -70,16 +76,17 @@ RUN chmod +x /start.sh && \
 # Add deCONZ, install deCONZ, make OTAU dir
 ADD download-deconz.sh /
 
-RUN /download-deconz.sh ${VERSION} ${CHANNEL} ${TARGETPLATFORM} -dev
- 
-RUN dpkg -i /deconz-dev.deb
-
 RUN /download-deconz.sh ${VERSION} ${CHANNEL} ${TARGETPLATFORM}
  
 RUN dpkg -i /deconz.deb && \
     rm -f /deconz.deb && \
     mkdir /root/otau && \
     chown root:root /usr/bin/deCONZ*
+
+RUN /download-deconz.sh ${VERSION} ${CHANNEL} ${TARGETPLATFORM} -dev
+ 
+RUN dpkg -i /deconz-dev.deb
+
 
 VOLUME [ "/root/.local/share/dresden-elektronik/deCONZ" ]
 
