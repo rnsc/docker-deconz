@@ -16,5 +16,5 @@ then
   URL="http://deconz.dresden-elektronik.de/raspbian/${CHANNEL}/deconz-${DECONZ_VERSION}-qt5.deb"
 fi
 
-curl -sS "${URL}" -o /deconz.deb
+curl -vv "${URL}" -o /deconz.deb
 
