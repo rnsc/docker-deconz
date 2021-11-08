@@ -9,8 +9,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker:
+  docker-build:
     runs-on: ubuntu-latest
+    matrix:
+      strategy:
+        include:
+          - name: standard
+            dockerfile: docker/Dockerfile
+            platforms: |-
+              linux/amd64
+              linux/arm/v7
+              linux/arm64
+            tags: |-
+              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:latest
+              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:${{ steps.version.output.prop }}
+          - name: dev
+            dockerfile: docker/Dockerfile-dev
+            platforms: |-
+              linux/amd64
+              linux/arm64
+            tags: |-
+              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz-dev:latest
+              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz-dev:${{ steps.version.output.prop }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -45,16 +65,13 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./docker/
-          file: docker/Dockerfile
-          platforms: |
-            linux/amd64
-            linux/arm/v7
-            linux/arm64
+          file: ${{ matrix.file }}
+          platforms: ${{ matrix.platforms }}
           build-args: |
-            VERSION=${{steps.version.outputs.prop}}
-            CHANNEL=${{steps.channel.outputs.prop}}
+            VERSION=${{ steps.version.outputs.prop }}
+            CHANNEL=${{ steps.channel.outputs.prop }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:latest
+          tags: ${{ matrix.tags }}
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
