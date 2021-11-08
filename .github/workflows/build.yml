@@ -20,13 +20,13 @@ jobs:
               linux/amd64
               linux/arm/v7
               linux/arm64
-            suffix: ""
+            image_name: "docker-deconz"
           - name: dev
             dockerfile: docker/Dockerfile-dev
             platforms: |-
               linux/amd64
               linux/arm64
-            suffix: "-dev"
+            image_name: "docker-deconz-dev"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
