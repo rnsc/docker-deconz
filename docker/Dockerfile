@@ -65,13 +65,10 @@ RUN chmod +x /start.sh && \
     chmod +x /firmware-update.sh
 
 # Add deCONZ, install deCONZ, make OTAU dir
-RUN if uname -a | grep -q arm64 ; \
-    then \
-        curl http://deconz.dresden-elektronik.de/ubuntu/${CHANNEL}/deconz-${DECONZ_VERSION}-arm64.deb -o /deconz.deb \
-    else \
-        curl http://deconz.dresden-elektronik.de/ubuntu/${CHANNEL}/deconz-${DECONZ_VERSION}-qt5.deb -o /deconz.deb \
-    fi
-        
+ADD download-deconz.sh /
+
+RUN /download-deconz.sh ${VERSION} ${CHANNEL}
+ 
 RUN dpkg -i /deconz.deb && \
     rm -f /deconz.deb && \
     mkdir /root/otau && \
