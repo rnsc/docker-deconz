@@ -69,7 +69,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_HUB_USER }}/${{ matrix.image_name }}:latest
-            ${{ secrets.DOCKER_HUB_USER }}/${{ matrix.image_name }}:${{ steps.version.output.prop }}
+            ${{ secrets.DOCKER_HUB_USER }}/${{ matrix.image_name }}:${{ steps.version.outputs.prop }}
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
