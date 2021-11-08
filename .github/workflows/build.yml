@@ -20,13 +20,13 @@ jobs:
               linux/amd64
               linux/arm/v7
               linux/arm64
-            suffix:
+            suffix: ""
           - name: dev
             dockerfile: docker/Dockerfile-dev
             platforms: |-
               linux/amd64
               linux/arm64
-            suffix: -dev
+            suffix: "-dev"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
