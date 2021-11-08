@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DECONZ_VERSION=$1
-CHANNEL=$ARG2
+CHANNEL=$2
 
 if uname -a | grep -q "arm64";
 then
