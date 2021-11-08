@@ -68,8 +68,8 @@ jobs:
             CHANNEL=${{ steps.channel.outputs.prop }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USER }}/docker-deconz${{ matrix.suffix }}:latest
-            ${{ secrets.DOCKER_HUB_USER }}/docker-deconz${{ matrix.suffix }}:${{ steps.version.output.prop }}
+            ${{ secrets.DOCKER_HUB_USER }}/${{ matrix.image_name }}:latest
+            ${{ secrets.DOCKER_HUB_USER }}/${{ matrix.image_name }}:${{ steps.version.output.prop }}
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
