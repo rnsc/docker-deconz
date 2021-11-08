@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 DECONZ_VERSION=$1
 CHANNEL=$2
 
