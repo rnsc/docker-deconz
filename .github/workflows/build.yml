@@ -20,17 +20,13 @@ jobs:
               linux/amd64
               linux/arm/v7
               linux/arm64
-            tags: |-
-              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:latest
-              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz:${{ steps.version.output.prop }}
+            suffix:
           - name: dev
             dockerfile: docker/Dockerfile-dev
             platforms: |-
               linux/amd64
               linux/arm64
-            tags: |-
-              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz-dev:latest
-              ${{ secrets.DOCKER_HUB_USER }}/docker-deconz-dev:${{ steps.version.output.prop }}
+            suffix: -dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -71,7 +67,9 @@ jobs:
             VERSION=${{ steps.version.outputs.prop }}
             CHANNEL=${{ steps.channel.outputs.prop }}
           push: true
-          tags: ${{ matrix.tags }}
+          tags: |
+            ${{ secrets.DOCKER_HUB_USER }}/docker-deconz${{ matrix.suffix }}:latest
+            ${{ secrets.DOCKER_HUB_USER }}/docker-deconz${{ matrix.suffix }}:${{ steps.version.output.prop }}
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
