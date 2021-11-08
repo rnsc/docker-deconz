@@ -11,8 +11,8 @@ on:
 jobs:
   docker-build:
     runs-on: ubuntu-latest
-    matrix:
-      strategy:
+    strategy:
+      matrix:
         include:
           - name: standard
             dockerfile: docker/Dockerfile
